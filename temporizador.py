@@ -40,7 +40,7 @@ class Temporizador:
         self.keyboard_listener = KeyListener(on_press=self._on_key_press)
         self.keyboard_listener.daemon = True
         self.keyboard_listener.start()
-        print("[TEMPORIZADOR] Listener global de teclado activo")
+        print("[TEMPORIZADOR] Listener global de teclado activo (F14, F15)")
 
         # Mantener siempre en primer plano
         self.ventana.attributes('-topmost', True)
@@ -61,10 +61,11 @@ class Temporizador:
         self.etiqueta_tiempo.pack(fill=tk.BOTH, expand=True)
 
         # Atajos cuando la ventana tiene foco
-        self.ventana.bind("<F1>", lambda e: self.iniciar())
-        self.ventana.bind("<F2>", lambda e: self.reiniciar())
+        self.ventana.bind("<F14>", lambda e: self.iniciar())
+        self.ventana.bind("<F15>", lambda e: self.reiniciar())
         
-        print("[TEMPORIZADOR] Presiona F1 para iniciar, F2 para reiniciar")
+        print("[TEMPORIZADOR] F14: Iniciar")
+        print("[TEMPORIZADOR] F15: Reiniciar")
 
     def _formato(self, segundos):
         return f"{segundos // 60:02d}:{segundos % 60:02d}"
@@ -79,14 +80,16 @@ class Temporizador:
         self._job_frente = self.ventana.after(200, self._mantener_en_frente)
 
     def _on_key_press(self, key):
-        """Listener global del teclado - detecta F1 y F2 en cualquier lugar"""
+        """Listener global del teclado - detecta F14 y F15 en cualquier lugar"""
         try:
-            if key == Key.f1:
+            if key == Key.f14:
                 self.ventana.after(0, self.iniciar)
-            elif key == Key.f2:
+            elif key == Key.f15:
                 self.ventana.after(0, self.reiniciar)
         except AttributeError:
             pass
+
+
 
     def iniciar(self):
         with self._lock:
