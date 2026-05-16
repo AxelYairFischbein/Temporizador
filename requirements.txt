@@ -1,0 +1,3 @@
+pynput==1.8.1
+# tkinter se incluye por defecto en Python en Windows y macOS
+# En Linux instalar: sudo apt-get install python3-tk
